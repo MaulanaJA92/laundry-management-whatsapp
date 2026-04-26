@@ -1,7 +1,8 @@
 import { Paper, Box} from "@mui/material";
+import {useState, ReactNode } from "react";
 
 Type Props ={
-    children: React.ReactNode
+    children: ReactNode
 }
 
 export default function SectionCard({children}: Props) {
