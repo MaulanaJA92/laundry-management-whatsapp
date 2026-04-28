@@ -9,9 +9,12 @@ import {
 } from "@mui/material";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
+import PeopleIcon from "@mui/icons-material/People";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 type Props = {
   mobileOpen: boolean;
@@ -20,10 +23,10 @@ type Props = {
 };
 
 const menuItems = [
-  { label: "Dashboard", icon: <DashboardIcon /> },
-  { label: "Orders", icon: <ListAltIcon /> },
-  { label: "Customers", icon: <ListAltIcon /> },
-  { label: "Reports", icon: <ListAltIcon /> },
+  { label: "Dashboard", icon: <DashboardIcon />, link: "/" },
+  { label: "Orders", icon: <ReceiptLongIcon />, link: "/orders" },
+  { label: "Customers", icon: <PeopleIcon />, link: "/customers" },
+  { label: "Reports", icon: <ListAltIcon />, link: "/reports" },
 ];
 
 export default function Sidebar({
@@ -56,6 +59,8 @@ export default function Sidebar({
           return (
             <ListItemButton
               key={item.label}
+              component={Link}
+              to={item.link}
               onClick={() => setActive(item.label)}
               sx={{
                 borderRadius: 2,

@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Box, Toolbar } from "@mui/material";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";

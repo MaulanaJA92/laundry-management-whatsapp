@@ -1,7 +1,7 @@
 import { Paper, Box} from "@mui/material";
-import {useState, ReactNode } from "react";
+import { type ReactNode } from "react";
 
-Type Props ={
+type Props ={
     children: ReactNode
 }
 

@@ -1,19 +1,16 @@
-import './App.css'
-import Layout from './components/Layout';
-import { CssBaseline } from "@mui/material";
+import { Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout/index.tsx";
 
 function App() {
-  
-
   return (
-    <>
-      <CssBaseline/>
-      <Layout>
-        <h1>Welcome to Laundry WA Dashboard</h1>
-        <p>This is the main content area. You can add your dashboard components here.</p>
-      </Layout>
-    </>
-  )
+    <Layout>
+      <Routes>
+        <Route path="/" element={<h1>Dashboard</h1>} />
+        <Route path="/orders" element={<h1>Orders</h1>} />
+        <Route path="/customers" element={<h1>Customers</h1>} />
+        <Route path="/reports" element={<h1>Reports</h1>} />
+      </Routes>
+    </Layout>
+  );
 }
-
-export default App
+export default App;

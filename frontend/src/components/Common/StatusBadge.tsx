@@ -1,6 +1,6 @@
 import {Chip} from "@mui/material";
 
-Type Props = {
+type Props = {
     status: string
 }
 
