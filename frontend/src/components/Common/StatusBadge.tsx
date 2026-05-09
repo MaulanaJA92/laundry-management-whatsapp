@@ -4,7 +4,7 @@ type Props = {
     status: string
 }
 
-export default function StatusBadge({status}: Props) {
+const StatusBadge = ({status}: Props) => {
     const color = status === "done" ? "success" : 
     status === "processing" ? "warning":
     "default";
@@ -12,3 +12,4 @@ export default function StatusBadge({status}: Props) {
         <Chip label={status} color={color} />
     )
 }
+export default StatusBadge;

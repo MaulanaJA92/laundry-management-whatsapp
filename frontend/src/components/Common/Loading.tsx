@@ -1,9 +1,10 @@
 import { CircularProgress, Box } from "@mui/material";
 
-export default function Loading() {
+const Loading = () => {
   return (
     <Box sx={{ textAlign: "center", mt: 2 }}>
       <CircularProgress />
     </Box>
   );
 }
+export default Loading;

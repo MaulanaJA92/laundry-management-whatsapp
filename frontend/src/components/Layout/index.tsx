@@ -8,7 +8,7 @@ const drawerWidth = 240;
 
 type Props = { children: ReactNode };
 
-export default function Layout({ children }: Props) {
+const Layout = ({ children }: Props) => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleToggle = () => setMobileOpen((p) => !p);
@@ -43,3 +43,4 @@ export default function Layout({ children }: Props) {
     </Box>
   );
 }
+export default Layout;

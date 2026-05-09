@@ -5,7 +5,7 @@ type Props ={
     children: ReactNode
 }
 
-export default function SectionCard({children}: Props) {
+const SectionCard = ({children}: Props) => {
     return (
         <Paper elevation={3} sx={{padding: 2}}>
             <Box>
@@ -14,4 +14,5 @@ export default function SectionCard({children}: Props) {
         </Paper>
     )
 }
+export default  SectionCard;
 

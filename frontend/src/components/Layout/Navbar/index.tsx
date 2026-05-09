@@ -6,7 +6,7 @@ type Props = {
   drawerWidth: number;
 };
 
-export default function Navbar({ onMenuClick, drawerWidth }: Props) {
+const Navbar = ({ onMenuClick, drawerWidth }: Props) => {
   return (
     <AppBar
       position="fixed"
@@ -26,10 +26,11 @@ export default function Navbar({ onMenuClick, drawerWidth }: Props) {
         </IconButton>
          <Box sx={{display:"flex", width: "100%", justifyContent: "space-between", alignItems: "center"}}>
         <Typography variant="h6" noWrap>
-          Admin Dashboard
+          Admin Panel
         </Typography>
         <Avatar sx={{ bgcolor: "secondary.main" }}>M</Avatar></Box>
       </Toolbar>
     </AppBar>
   );
 }
+export default Navbar;

@@ -29,11 +29,7 @@ const menuItems = [
   { label: "Reports", icon: <ListAltIcon />, link: "/reports" },
 ];
 
-export default function Sidebar({
-  mobileOpen,
-  onClose,
-  drawerWidth,
-}: Props) {
+const Sidebar = ({ mobileOpen, onClose, drawerWidth }: Props) => {
   const [active, setActive] = useState("Dashboard");
 
   const content = (
@@ -124,3 +120,4 @@ export default function Sidebar({
     </>
   );
 }
+export default Sidebar;
