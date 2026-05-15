@@ -1,15 +1,12 @@
 import express from "express";
 import cors from "cors";
+import ordersRoutes from "./routes/orders.routes.js";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.use("/", (req, res) => {
-  res.json({
-    message: "Laundry Management API running",
-  });
-});
+app.use("/orders", ordersRoutes);
 
 export default app;
