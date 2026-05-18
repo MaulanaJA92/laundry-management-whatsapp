@@ -1,4 +1,7 @@
 import app from "./app.js";
+import { connectWhatsapp } from "./whatsapp/baileys.js";
+
+connectWhatsapp();
 
 const PORT = 5000;
 

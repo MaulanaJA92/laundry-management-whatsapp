@@ -143,3 +143,4 @@ vite.config.ts.timestamp-*
 .vite/
 
 serviceAccountKey.json
+auth_info
