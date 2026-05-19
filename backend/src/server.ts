@@ -6,7 +6,7 @@ dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 
-connectWhatsapp();
+// connectWhatsapp();
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

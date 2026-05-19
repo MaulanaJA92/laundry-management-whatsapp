@@ -26,8 +26,8 @@ export const createOrder = async (orderData: OrderData) => {
   return { id: newOrderRef.id, ...orderData };
 };
 
-export const updateOrderStatus = async (orderId: string, status: string) => {
-  await db.collection("laundry_orders").doc(orderId).update({ status });
+export const updateOrderStatus = async (orderId: string, data: OrderData) => {
+  await db.collection("laundry_orders").doc(orderId).update(data);
 };
 
 export const deleteOrder = async (orderId: string) => {

@@ -22,6 +22,8 @@ export const getOrdersController = async (req: Request, res: Response) => {
 
 export const createOrderController = async (req: Request, res: Response) => {
   try {
+    console.log("Received order data:", req.body);
+
     const newOrder = await createOrder(req.body);
 
     res.status(201).json({ status: "success", data: newOrder });
@@ -40,9 +42,9 @@ export const updateOrderStatusController = async (
   try {
     const { orderId } = req.params as { orderId: string };
 
-    const { status } = req.body as { status: string };
+    const data = req.body;
 
-    if (!orderId || !status) {
+    if (!orderId || !data) {
       res.status(400).json({
         status: "error",
         message: "Missing required parameters",
@@ -50,7 +52,7 @@ export const updateOrderStatusController = async (
       return;
     }
 
-    await updateOrderStatus(orderId, status);
+    await updateOrderStatus(orderId, data);
 
     res.status(200).json({
       status: "success",

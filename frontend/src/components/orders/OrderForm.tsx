@@ -1,10 +1,18 @@
-import { TextField, Button, Box } from "@mui/material";
-import { useState } from "react";
+import { TextField, Button, Box, MenuItem } from "@mui/material";
+import { useEffect, useState } from "react";
+import { createOrder, updateOrder } from "../../api/orders.api";
+
+type Item = {
+  id: string;
+  type: string;
+  quantity: number | "";
+};
 
 type Props = {
   mode: "create" | "edit";
 
   initialValues?: {
+    id?: string;
     customerName: string;
     phone: string;
     address: string;
@@ -18,20 +26,54 @@ type Props = {
     status: string;
     date: string;
   };
+
+  onSuccess: () => Promise<void>;
 };
 
-const OrderForm = ({ mode, initialValues }: Props) => {
-  const [items, setItems] = useState([
-    {
-      id: crypto.randomUUID(),
-      type: "",
-      quantity: 1,
-    },
-  ]);
+const OrderForm = ({ mode, initialValues, onSuccess }: Props) => {
+  const [customerName, setCustomerName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [totalPrice, setTotalPrice] = useState<number | "">("");
+  const [status, setStatus] = useState("");
+  const [date, setDate] = useState("");
+
+  const [items, setItems] = useState<Item[]>([]);
+
+  useEffect(() => {
+    if (initialValues) {
+      setCustomerName(initialValues.customerName);
+      setPhone(initialValues.phone);
+      setAddress(initialValues.address);
+      setTotalPrice(initialValues.totalPrice);
+      setStatus(initialValues.status);
+      setDate(initialValues.date);
+
+      setItems(
+        initialValues.items.map((item) => ({
+          id: crypto.randomUUID(),
+          type: item.type,
+          quantity: item.quantity,
+        })),
+      );
+    }
+  }, [initialValues]);
+
+  const handleAddItem = () => {
+    setItems([
+      ...items,
+      {
+        id: crypto.randomUUID(),
+        type: "",
+        quantity: "",
+      },
+    ]);
+  };
 
   const handleRemoveItem = (indexToRemove: number) => {
-    setItems(items.filter((_, index: number) => index !== indexToRemove));
+    setItems(items.filter((_, index) => index !== indexToRemove));
   };
+
   const handleItemChange = (
     index: number,
     field: "type" | "quantity",
@@ -41,49 +83,84 @@ const OrderForm = ({ mode, initialValues }: Props) => {
 
     updatedItems[index] = {
       ...updatedItems[index],
-      [field]: field === "quantity" ? Number(value) : value,
+      [field]:
+        field === "quantity" ? (value === "" ? "" : Number(value)) : value,
     };
 
     setItems(updatedItems);
   };
 
-  const handleAddItem = () => {
-    setItems([
-      ...items,
-      {
-        id: crypto.randomUUID(),
-        type: "",
-        quantity: 1,
-      },
-    ]);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const data = {
+      customerName,
+      phone,
+      address,
+
+      items: items.map((item) => ({
+        type: item.type,
+        quantity: Number(item.quantity),
+      })),
+
+      totalPrice: Number(totalPrice),
+
+      date,
+      status: status,
+    };
+
+    try {
+      if (mode === "create") {
+        await createOrder(data);
+
+        setCustomerName("");
+        setPhone("");
+        setAddress("");
+        setItems([]);
+        setStatus("");
+        setTotalPrice("");
+        setDate("");
+      } else {
+        await updateOrder(initialValues?.id as string, data);
+      }
+
+      await onSuccess();
+
+      console.log("Success");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <TextField
         fullWidth
         label="Customer Name"
         margin="normal"
-        defaultValue={initialValues?.customerName || ""}
+        value={customerName}
+        onChange={(e) => setCustomerName(e.target.value)}
       />
 
       <TextField
         fullWidth
         label="Phone"
         margin="normal"
-        defaultValue={initialValues?.phone || ""}
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
       />
 
       <TextField
         fullWidth
         label="Address"
         margin="normal"
-        defaultValue={initialValues?.address || ""}
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
       />
 
       {items.map((item, index) => (
         <Box
-          key={index}
+          key={item.id}
           sx={{
             display: "flex",
             gap: 2,
@@ -111,38 +188,56 @@ const OrderForm = ({ mode, initialValues }: Props) => {
             variant="contained"
             color="error"
             onClick={() => handleRemoveItem(index)}
-            sx={{
-              fontSize: "12px",
-              fontWeight: 600,
-              textTransform: "none",
-              borderRadius: 2,
-            }}
           >
             Remove
           </Button>
         </Box>
       ))}
+
       <Button variant="outlined" onClick={handleAddItem}>
         Add Item
       </Button>
-   
+
       <TextField
         fullWidth
         type="number"
         label="Total Price"
         margin="normal"
-        defaultValue={initialValues?.totalPrice || ""}
+        value={totalPrice}
+        onChange={(e) =>
+          setTotalPrice(e.target.value === "" ? "" : Number(e.target.value))
+        }
       />
 
-  
+      {mode === "edit" && (
+        <TextField
+          fullWidth
+          select
+          label="Status"
+          margin="normal"
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+        >
+          <MenuItem value="processing">Processing</MenuItem>
+
+          <MenuItem value="done">Done</MenuItem>
+        </TextField>
+      )}
+
       <TextField
         fullWidth
         type="date"
         margin="normal"
-        defaultValue={initialValues?.date || ""}
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
       />
 
-      <Button variant="contained">
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        sx={{ marginTop: 2 }}
+      >
         {mode === "create" ? "Create Order" : "Update Order"}
       </Button>
     </form>

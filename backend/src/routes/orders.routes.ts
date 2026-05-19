@@ -13,7 +13,7 @@ router.get("/", getOrdersController);
 
 router.post("/", createOrderController);
 
-router.patch("/:orderId/status", updateOrderStatusController);
+router.put("/:orderId", updateOrderStatusController);
 
 router.delete("/:orderId", deleteOrderController);
 

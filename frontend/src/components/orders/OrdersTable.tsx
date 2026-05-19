@@ -7,11 +7,13 @@ import {
   TableHead,
   TableRow,
   Button,
+  Box,
 } from "@mui/material";
 import StatusBadge from "../Common/StatusBadge";
+import EmptyState from "../Common/EmptyState";
 
 type Order = {
-  id: number;
+  id: string;
   customerName: string;
   phone: string;
   address: string;
@@ -23,11 +25,11 @@ type Order = {
 
 type Props = {
   OpenEditModal: (order: Order) => void;
+  OpenDeleteModal: (order: Order) => void;
   orders: Order[];
 };
 
-
-const OrdersTable = ({OpenEditModal, orders}:Props) => {
+const OrdersTable = ({ OpenEditModal, OpenDeleteModal, orders }: Props) => {
   return (
     <TableContainer
       component={Paper}
@@ -77,75 +79,84 @@ const OrdersTable = ({OpenEditModal, orders}:Props) => {
         </TableHead>
 
         <TableBody>
-          {orders.map((order) => (
-            <TableRow
-              key={order.id}
-              hover
-              sx={{
-                backgroundColor: "#ffffff",
-
-                "&:hover": {
-                  backgroundColor: "#e3f2fd",
-                },
-              }}
-            >
-              <TableCell>{order.customerName}</TableCell>
-
-              <TableCell>{order.phone}</TableCell>
-
-              <TableCell>{order.address}</TableCell>
-
-              <TableCell>
-                {order.items.map((item, index) => (
-                  <div key={index}>
-                    {item.type} ({item.quantity})
-                  </div>
-                ))}
-              </TableCell>
-
-              <TableCell>Rp {order.totalPrice.toLocaleString()}</TableCell>
-
-              <TableCell>
-                <StatusBadge status={order.status} />
-              </TableCell>
-
-              <TableCell>{order.date}</TableCell>
-              <TableCell
+          {orders.length === 0 ? (
+            <TableCell colSpan={9} align="center">
+              <EmptyState />
+            </TableCell>
+          ) : (
+            orders.map((order, index) => (
+              <TableRow
+                key={order.id}
+                hover
                 sx={{
-                  display: "flex",
-                  gap: 1,
+                  backgroundColor: "#ffffff",
+
+                  "&:hover": {
+                    backgroundColor: "#e3f2fd",
+                  },
                 }}
               >
-                <Button
-                  variant="contained"
-                  onClick={() => OpenEditModal(order)}
-                  sx={{
-                    backgroundColor: "#2ec9f8",
-                    fontSize: "12px",
-                    fontWeight: 600,
-                    textTransform: "none",
-                    borderRadius: 2,
-                  }}
-                >
-                  Edit
-                </Button>
+                <TableCell>{order.customerName}</TableCell>
 
-                <Button
-                  variant="contained"
-                  color="error"
-                  onClick={() => {}}
-                  sx={{
-                    fontSize: "12px",
-                    fontWeight: 600,
-                    textTransform: "none",
-                    borderRadius: 2,
-                  }}
-                >
-                  Delete
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
+                <TableCell>{order.phone}</TableCell>
+
+                <TableCell>{order.address}</TableCell>
+
+                <TableCell>
+                  {order.items.map((item, index) => (
+                    <div key={index}>
+                      {item.type} ({item.quantity})
+                    </div>
+                  ))}
+                </TableCell>
+
+                <TableCell>Rp {order.totalPrice.toLocaleString()}</TableCell>
+
+                <TableCell>
+                  <StatusBadge status={order.status} />
+                </TableCell>
+
+                <TableCell>{order.date}</TableCell>
+                <TableCell sx={{ verticalAlign: "middle", py: 2 }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: 1,
+                      alignItems: "center",
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      onClick={() => OpenEditModal(order)}
+                      sx={{
+                        backgroundColor: "#2ec9f8",
+                        fontSize: "12px",
+                        fontWeight: 600,
+                        textTransform: "none",
+                        borderRadius: 2,
+                      }}
+                    >
+                      Edit
+                    </Button>
+
+                    <Button
+                      variant="contained"
+                      color="error"
+                      onClick={() => OpenDeleteModal(order)}
+                      sx={{
+                        fontSize: "12px",
+                        fontWeight: 600,
+                        textTransform: "none",
+                        borderRadius: 2,
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </Box>
+                </TableCell>
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </Table>
     </TableContainer>
