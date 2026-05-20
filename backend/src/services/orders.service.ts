@@ -10,26 +10,28 @@ type OrderData = {
   date: Date;
 };
 
-export const getOrders = async () => {
+type Order = OrderData & { id: string };
+
+export const getOrders = async (): Promise<Order[]> => {
   const snapshot = await db.collection("laundry_orders").get();
 
   const orders = snapshot.docs.map((doc) => ({
     id: doc.id,
-    ...doc.data(),
+    ...(doc.data() as OrderData),
   }));
 
   return orders;
 };
 
-export const createOrder = async (orderData: OrderData) => {
+export const createOrder = async (orderData: OrderData): Promise<Order> => {
   const newOrderRef = await db.collection("laundry_orders").add(orderData);
   return { id: newOrderRef.id, ...orderData };
 };
 
-export const updateOrderStatus = async (orderId: string, data: OrderData) => {
+export const updateOrderStatus = async (orderId: string, data: Partial<OrderData>): Promise<void> => {
   await db.collection("laundry_orders").doc(orderId).update(data);
 };
 
-export const deleteOrder = async (orderId: string) => {
+export const deleteOrder = async (orderId: string): Promise<void> => {
   await db.collection("laundry_orders").doc(orderId).delete();
 };

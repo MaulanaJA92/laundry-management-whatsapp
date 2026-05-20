@@ -80,9 +80,11 @@ const OrdersTable = ({ OpenEditModal, OpenDeleteModal, orders }: Props) => {
 
         <TableBody>
           {orders.length === 0 ? (
-            <TableCell colSpan={9} align="center">
-              <EmptyState />
-            </TableCell>
+            <TableRow>
+              <TableCell colSpan={9} align="center">
+                <EmptyState />
+              </TableCell>
+            </TableRow>
           ) : (
             orders.map((order, index) => (
               <TableRow

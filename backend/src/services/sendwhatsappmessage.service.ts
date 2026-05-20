@@ -1,9 +1,16 @@
 import { sock } from "../whatsapp/baileys.js";
 
-export const sendWhatsappMessage = async (phone: string, message: string) => {
-  const formattedPhone = `${phone}@s.whatsapp.net`;
+export const sendWhatsappMessage = async (phone: number, message: string): Promise<boolean> => {
+  try {
+    const formattedPhone = `${phone}@s.whatsapp.net`;
 
-  await sock.sendMessage(formattedPhone, {
-    text: message,
-  });
+    await sock.sendMessage(formattedPhone, {
+      text: message,
+    });
+
+    return true;
+  } catch (error) {
+    console.error("Failed to send WA:", error);
+    return false;
+  }
 };

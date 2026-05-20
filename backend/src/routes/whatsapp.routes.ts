@@ -9,5 +9,6 @@ router.get("/qr", (req, res) => {
     qr: currentQr,
   });
 });
+ 
 
 export default router;
