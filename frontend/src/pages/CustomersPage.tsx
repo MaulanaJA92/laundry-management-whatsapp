@@ -1,8 +1,9 @@
-import { getCustomers } from "../api/custumer.api";
+import { getChatLogs, getCustomers } from "../api/custumer.api";
 import CustomerTable from "../components/customers/CustomerTable.tsx";
 import CustomerChatForm from "../components/customers/CustomerChatForm.tsx";
 import { useState, useEffect } from "react";
-import { Dialog, DialogTitle, DialogContent } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent, Box } from "@mui/material";
+import ChatLog from "../components/customers/ChatLog.tsx";
 type Customer = {
   id: string;
   customerName: string;
@@ -12,9 +13,21 @@ type Customer = {
   date: string;
 };
 
+type Logs = {
+  id: string;
+  sender: "admin" | "customer";
+  logs: {
+    orderId: string;
+    phone: string;
+    message: string;
+    timestamp: string;
+  }[];
+};
+
 const customersPage = () => {
   const [openMessage, setOpenMessage] = useState(false);
   const [customers, setCustomers] = useState<Customer[]>([]);
+  const [logs, setLogs] = useState<any[]>([]);
   const [selectedCustomer, setSelectedCustomer] = useState<
     Customer | undefined
   >(undefined);
@@ -26,9 +39,15 @@ const customersPage = () => {
   useEffect(() => {
     fetchCustomers();
   }, []);
+  const fetchLogs = async (orderId: string) => {
+    const data = await getChatLogs(orderId);
+    setLogs(data ?? []);
+  };
+
   const handleOpenMessageModal = (customer: Customer) => {
     setSelectedCustomer(customer);
     setOpenMessage(true);
+    fetchLogs(customer.id);
   };
 
   return (
@@ -40,21 +59,36 @@ const customersPage = () => {
       <Dialog
         open={openMessage}
         onClose={() => setOpenMessage(false)}
+        onTransitionExited={() => setSelectedCustomer(undefined)}
         fullWidth
         maxWidth="md"
       >
         <DialogContent>
           <DialogTitle>Send Message</DialogTitle>
-          {selectedCustomer && (
-            <CustomerChatForm
-              customer={selectedCustomer}
-              // onClose={() => setOpenMessage(false)}
-              onSuccess={async () => {
-                setOpenMessage(false);
-                await fetchCustomers();
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <Box sx={{ flex: 1 }}>
+              {selectedCustomer && (
+                <CustomerChatForm
+                  customer={selectedCustomer}
+                  onSuccess={async () => {
+                    await fetchLogs(selectedCustomer!.id);
+                    setOpenMessage(false);
+                  }}
+                />
+              )}
+            </Box>
+
+            <Box
+              sx={{
+                flex: 1,
+                borderLeft: "1px solid",
+                borderColor: "divider",
+                pl: 2,
               }}
-            />
-          )}
+            >
+              <ChatLog logs={logs} />
+            </Box>
+          </Box>
         </DialogContent>
       </Dialog>
     </>

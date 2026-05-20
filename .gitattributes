@@ -1,0 +1,10 @@
+
+frontend/dist/**/*.js linguist-vendored
+frontend/build/**/*.js linguist-vendored
+
+backend/dist/**/*.js linguist-vendored
+backend/build/**/*.js linguist-vendored
+backend/out/**/*.js linguist-vendored
+
+
+**/node_modules/ linguist-vendored
