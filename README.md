@@ -36,7 +36,7 @@ A simple fullstack application for managing laundry orders with automated WhatsA
 
 ### 🖥️ Admin Panel & Order List
 
-![Order List](./Screenshot-order.png)
+![Order List](./Screenshot-orders.png)
 
 ### 📱 WhatsApp Notification Received
 
