@@ -4,6 +4,7 @@ import CustomerChatForm from "../components/customers/CustomerChatForm.tsx";
 import { useState, useEffect } from "react";
 import { Dialog, DialogTitle, DialogContent, Box } from "@mui/material";
 import ChatLog from "../components/customers/ChatLog.tsx";
+import Loading from "../components/Common/Loading.tsx";
 type Customer = {
   id: string;
   customerName: string;
@@ -15,25 +16,27 @@ type Customer = {
 
 type Logs = {
   id: string;
-  sender: "admin" | "customer";
   logs: {
     orderId: string;
     phone: string;
     message: string;
-    timestamp: string;
+    timestamp: any;
   }[];
 };
 
 const customersPage = () => {
   const [openMessage, setOpenMessage] = useState(false);
   const [customers, setCustomers] = useState<Customer[]>([]);
-  const [logs, setLogs] = useState<any[]>([]);
+  const [logs, setLogs] = useState<Logs["logs"]>([]);
   const [selectedCustomer, setSelectedCustomer] = useState<
     Customer | undefined
   >(undefined);
+  const [loading, setLoading] = useState(false);
   const fetchCustomers = async () => {
+    setLoading(true);
     const data = await getCustomers();
     setCustomers(data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -56,6 +59,7 @@ const customersPage = () => {
         customers={customers}
         OpenMessageModal={handleOpenMessageModal}
       />
+      {loading && <Loading/>}
       <Dialog
         open={openMessage}
         onClose={() => setOpenMessage(false)}

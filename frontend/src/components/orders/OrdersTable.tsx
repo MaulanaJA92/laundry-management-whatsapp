@@ -100,7 +100,7 @@ const OrdersTable = ({ OpenEditModal, OpenDeleteModal, orders }: Props) => {
               >
                 <TableCell>{order.customerName}</TableCell>
 
-                <TableCell>{order.phone}</TableCell>
+                <TableCell>{`+${order.phone}`}</TableCell>
 
                 <TableCell>{order.address}</TableCell>
 

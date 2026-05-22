@@ -6,10 +6,7 @@ import makeWASocket, {
 import qrcode from "qrcode-terminal";
 import { sendWhatsappMessage } from "../services/sendwhatsappmessage.service.js";
 
-const myNumber = process.env.MY_NUMBER as string;
-
 export let sock: ReturnType<typeof makeWASocket>;
-
 
 export let currentQr: string | null = null;
 
@@ -35,11 +32,15 @@ export const connectWhatsapp = async () => {
 
     if (connection === "open") {
       console.log("WhatsApp Connected");
+      const myNumber = process.env.MY_NUMBER as string;
 
-      await sendWhatsappMessage(
-        myNumber,
-        "Test message from Baileys 🚀",
-      );
+      const myNumberNum = Number(myNumber);
+      if (Number.isNaN(myNumberNum)) {
+        console.error("MY_NUMBER is not a valid number:", myNumber);
+        return;
+      }
+
+      await sendWhatsappMessage(myNumberNum, "Test message from Baileys 🚀");
 
       currentQr = null;
     }

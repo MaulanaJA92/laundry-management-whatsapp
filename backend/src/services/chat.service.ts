@@ -19,6 +19,9 @@ export const createChat = async (orderId: string, phone:number, message: string)
     timestamp: new Date(),
   };
   const sendchat = await sendWhatsappMessage(phone, message);
+  if (!sendchat) {
+    throw new Error("Failed to send WhatsApp message");
+  }
   const docRef = await chatLogsCollection.add(newChat);
   return {
     id: docRef.id,

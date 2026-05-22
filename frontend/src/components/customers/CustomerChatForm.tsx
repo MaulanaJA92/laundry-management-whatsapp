@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { TextField, Button, TextareaAutosize, MenuItem } from "@mui/material";
+import { createChat } from "../../api/custumer.api";
 
 type Customer = {
   id: string;
@@ -22,21 +23,21 @@ const CustomerChatForm = ({ customer, onSuccess }: Props) => {
       message:
         "hello, " +
         customer.customerName +
-        "Your order has been received and is being processed.",
-    },
+        "  Your order has been received and is being processed.",
+    }, 
     {
       type: "warning",
       message:
         "hello, " +
         customer.customerName +
-        "Your order is delayed due to unforeseen circumstances. We apologize for the inconvenience.",
+        " Your order is delayed due to unforeseen circumstances. We apologize for the inconvenience.",
     },
     {
       type: "done",
       message:
         "hello, " +
         customer.customerName +
-        "Your order has been completed and can be picked up. Thank you for using our service.",
+        " Your order has been completed and can be picked up. Thank you for using our service.",
     },
   ];
   const handlechacetemplate = (value: string) => {
@@ -48,6 +49,10 @@ const CustomerChatForm = ({ customer, onSuccess }: Props) => {
   const handlesubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedTemplate || !message) return;
+    const data={
+      orderId: customer.id, phone:phone, message: message 
+    }
+    await createChat(data);
 
     await onSuccess();
   };

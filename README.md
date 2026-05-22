@@ -9,48 +9,65 @@ A simple fullstack application for managing laundry orders with automated WhatsA
 - Create and manage laundry orders
 - Update order status
 - Automatic WhatsApp notifications
-- Simple dashboard for admin
+- Admin panel interface with navigation
 - WhatsApp message logs
 
 ---
 
 ## 🧠 Tech Stack
 
-- Frontend: React (Vite)
-- Backend: Express.js
-- Database: Firebase Firestore
-- WhatsApp Gateway: Baileys (WhatsApp Web API)
+**Frontend:**
+
+- React.js (Vite) with **TypeScript**
+- **Material-UI (MUI)** & `mui-tel-input` for Admin Design and Order Management UI
+
+**Backend & Database:**
+
+- Node.js & Express.js (ES Modules)
+- **Firebase Firestore** (NoSQL Database)
+
+**WhatsApp Integration:**
+
+- `@whiskeysockets/baileys` (WhatsApp Web API Wrapper)
 
 ---
 
 ## 📸 Demo
 
-> Add your demo video or screenshots here
+### 🖥️ Admin Panel & Order List
 
-- Video Demo: (link here)
-- Screenshot:
-  - Dashboard
-  - Order List
-  - WhatsApp Notification
+![Order List](./Screenshot-order.png)
+
+### 📱 WhatsApp Notification Received
+
+![WhatsApp Notification](./Screenshot-wa-chat.png)
+![WhatsApp Notification](./Screenshot-phone.jpeg)
 
 ---
 
 ## ⚙️ How It Works
 
-1. Admin creates a new laundry order
+1. Admin creates a new laundry order using the web interface
 2. Order is stored in the database
 3. When status is updated:
    - Backend triggers WhatsApp notification
-
 4. Customer receives real-time updates via WhatsApp
 
 ---
 
 ## 📦 Project Structure
 
-```
-frontend/
-backend/
+```text
+├── backend/
+│   ├── src/
+│   │   ├── whatsapp/      # Baileys socket connection setup
+│   │   ├── services/      # WhatsApp message service logic
+│   │   └── index.ts       # Express server & entry point
+├── frontend/
+│   ├── src/
+│   │   ├── components/    # Reusable MUI Components
+│   │   ├── api/           # Axios/Fetch API integration
+│   │   └── App.tsx
 ```
 
 ---
@@ -60,7 +77,7 @@ backend/
 ### 1. Clone repository
 
 ```
-git clone https://github.com/your-username/laundry-management-whatsapp.git
+git clone [https://github.com/MaulanaJA92/Laundry-Management-WhatsApp.git](https://github.com/MaulanaJA92/Laundry-Management-WhatsApp.git)
 ```
 
 ### 2. Install dependencies
@@ -76,32 +93,34 @@ npm install
 ### 3. Run project
 
 ```
-# backend
+# Run Backend
+cd backend
 npm run dev
 
-# frontend
+# Run Frontend
+cd frontend
 npm run dev
 ```
 
 ---
 
-## ⚠️ Limitations
+## ⚙️ Technical Considerations (Development Notes)
 
-- Uses unofficial WhatsApp API (Baileys)
-- Requires active session (QR login)
-- Not designed for large-scale production
+- **Session Management:** Uses multi-file authentication state to persist WhatsApp Web sessions via QR Code.
+- **Scope & Navigation:** The sidebar navigation includes "Dashboard" and "Reports" links, which are currently placeholder menus due to development time constraints. Core operations are fully functional in the "Orders" section.
+- **Backend Trigger:** Built as a Proof of Concept (PoC) for lightweight automated transactional messaging without relying on expensive official API gateways.
 
 ---
 
 ## 🚀 Future Improvements
 
-- Multi-user support
-- Role-based access (admin/staff)
-- Integration with official WhatsApp Business API
-- Analytics dashboard
+- **Functional Dashboard & Reports:** Activate the sidebar navigation links to display real-time analytics and financial summaries (currently placeholders).
+- **Multi-user support:** Role-based access control (admin/staff).
+- **Gateway Upgrade:** Integration with official WhatsApp Business API.
 
 ---
 
 ## 👨‍💻 Author
 
-Your Name
+Maulana
+GitHub: @MaulanaJA92

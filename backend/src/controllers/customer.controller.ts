@@ -23,12 +23,12 @@ export const getChatLogsController = async (req: Request, res: Response) => {
 };
 export const createChatController = async (req: Request, res: Response) => {
   try {
-    const { userId, message, number } = req.body;
-    if (!userId || !message || !number) {
+    const { orderId, message, phone } = req.body;
+    if (!orderId || !message || !phone) {
       res.status(400).json({ status: "error", error: "Missing required fields" });
       return;
     }
-    const newChat = await createChat(userId, number, message);
+    const newChat = await createChat(orderId, phone, message);
     res.status(201).json({ status: "success", data: newChat });
   } catch (error) {
     res.status(500).json({ status: "error", error: "Failed to create chat" });

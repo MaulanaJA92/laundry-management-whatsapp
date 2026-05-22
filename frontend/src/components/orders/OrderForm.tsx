@@ -1,5 +1,6 @@
 import { TextField, Button, Box, MenuItem } from "@mui/material";
 import { useEffect, useState } from "react";
+import { MuiTelInput } from "mui-tel-input";
 import { createOrder, updateOrder } from "../../api/orders.api";
 
 type Item = {
@@ -92,10 +93,11 @@ const OrderForm = ({ mode, initialValues, onSuccess }: Props) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const cleanPhone = phone.replace(/[^0-9]/g, "");
 
     const data = {
       customerName,
-      phone,
+      phone:cleanPhone,
       address,
 
       items: items.map((item) => ({
@@ -106,7 +108,7 @@ const OrderForm = ({ mode, initialValues, onSuccess }: Props) => {
       totalPrice: Number(totalPrice),
 
       date,
-      status: status,
+      status: mode === "edit" ? status : "processing",
     };
 
     try {
@@ -142,12 +144,13 @@ const OrderForm = ({ mode, initialValues, onSuccess }: Props) => {
         onChange={(e) => setCustomerName(e.target.value)}
       />
 
-      <TextField
+     <MuiTelInput
         fullWidth
-        label="Phone"
+        label="Phone Number"
         margin="normal"
+        defaultCountry="ID"
         value={phone}
-        onChange={(e) => setPhone(e.target.value)}
+        onChange={(newValue) => setPhone(newValue)} 
       />
 
       <TextField

@@ -88,7 +88,7 @@ const CustomerTable = ({ OpenMessageModal, customers }: Props) => {
               >
                 <TableCell>{customer.customerName}</TableCell>
 
-                <TableCell>{customer.phone}</TableCell>
+                <TableCell>{`+${customer.phone}`}</TableCell>
 
                 <TableCell>{customer.address}</TableCell>
 

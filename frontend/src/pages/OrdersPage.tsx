@@ -4,6 +4,7 @@ import OrdersTable from "../components/orders/OrdersTable.tsx";
 import OrderForm from "../components/orders/OrderForm.tsx";
 import { Button, Dialog, DialogTitle, DialogContent, Box } from "@mui/material";
 import { deleteOrder, getOrders } from "../api/orders.api.ts";
+import Loading from "../components/Common/Loading.tsx";
 
 type Order = {
   id: string;
@@ -25,6 +26,7 @@ const OrdersPage = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const [mode, setMode] = useState<"create" | "edit">("create");
 
@@ -32,9 +34,11 @@ const OrdersPage = () => {
     undefined,
   );
   const fetchOrders = async () => {
+    setLoading(true);
     const data = await getOrders();
 
     setOrders(data);
+    setLoading(false);
   };
   useEffect(() => {
     fetchOrders();
@@ -68,6 +72,7 @@ const OrdersPage = () => {
           setOpenDelete(true);
         }}
       />
+      {loading && <Loading/>}
       <Dialog
         open={openEdit}
         onClose={() => setOpenEdit(false)}
