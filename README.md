@@ -86,7 +86,7 @@ git clone [https://github.com/MaulanaJA92/Laundry-Management-WhatsApp.git](https
 cd backend
 npm install
 
-cd ../frontend
+cd frontend
 npm install
 ```
 
