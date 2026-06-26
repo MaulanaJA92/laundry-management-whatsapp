@@ -104,12 +104,12 @@ const OrdersTable = ({ OpenEditModal, OpenDeleteModal, orders }: Props) => {
 
                 <TableCell>{order.address}</TableCell>
 
+               
+              
                 <TableCell>
-                  {order.items.map((item, index) => (
-                    <div key={index}>
-                      {item.type} ({item.quantity})
-                    </div>
-                  ))}
+                  {order.items
+                    .map((item) => `${item.type} (${item.quantity})`)
+                    .join(", ")}
                 </TableCell>
 
                 <TableCell>Rp {order.totalPrice.toLocaleString()}</TableCell>
