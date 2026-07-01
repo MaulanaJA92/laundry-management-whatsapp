@@ -7,7 +7,9 @@ const Loading = () => {
         display: "flex", 
         justifyContent: "center", 
         alignItems: "center", 
-        minHeight: "50vh" 
+        height: "100%", 
+        width: "100%", 
+        p: 2           
       }}
     >
       <CircularProgress />
